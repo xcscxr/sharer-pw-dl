@@ -9,6 +9,10 @@ laravel_session = "" # laravel_session cookie
 
 '''
 404: Exception Handling Not Found :(
+
+NOTE:
+DO NOT use the logout button on website. Instead, clear the site cookies manually to log out.
+If you use logout from website, cookies will become invalid.
 '''
 
 # ===================================================================
