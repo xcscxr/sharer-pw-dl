@@ -1,6 +1,7 @@
 import re
 import requests
 from lxml import etree
+import cloudscraper
 
 url = "" # file url
 
@@ -25,14 +26,14 @@ def parse_info(res):
     return info_parsed
 
 def sharer_pw_dl(url, forced_login=False):
-    client = requests.Session()
+    scraper = cloudscraper.create_scraper(allow_brotli=False)
     
-    client.cookies.update({
+    scraper.cookies.update({
         "XSRF-TOKEN": XSRF_TOKEN,
         "laravel_session": laravel_session
     })
     
-    res = client.get(url)
+    res = scraper.get(url)
     token = re.findall("_token\s=\s'(.*?)'", res.text, re.DOTALL)[0]
     
     ddl_btn = etree.HTML(res.content).xpath("//button[@id='btndirect']")
@@ -58,7 +59,7 @@ def sharer_pw_dl(url, forced_login=False):
         data['nl'] = 1
     
     try: 
-        res = client.post(url+'/dl', headers=headers, data=data).json()
+        res = scraper.post(url+'/dl', headers=headers, data=data).json()
     except:
         return info_parsed
     
